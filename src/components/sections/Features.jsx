@@ -8,9 +8,9 @@ export default function FeaturesList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  // const [itemsPerPage, setItemsPerPage] = useState(15);
 
-  const itemsPerPage = 25;
-
+  const itemsPerPage = 15;
   const filteredConcepts = features.filter((feature) => {
     const matchesCategory =
       selectedCategory === "All" || feature.category === selectedCategory;
@@ -68,11 +68,13 @@ export default function FeaturesList() {
           ))}
         </div>
 
-        <ul className="flex flex-row flex-wrap gap-4 justify-center">
+        <ul className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
           {!visibleConcepts.length ? (
-            <p className="text-center dark:text-white text-black">
-              No concepts found.
-            </p>
+            <li className="col-span-full flex items-center justify-center">
+              <p className="text-center dark:text-white text-black">
+                No concepts found.
+              </p>
+            </li>
           ) : (
             visibleConcepts.map((feat) => (
               <li
@@ -93,7 +95,10 @@ export default function FeaturesList() {
           <div className="flex justify-center items-center gap-4 pt-8 dark:text-white text-black">
             <Button
               text={"<"}
-              func={() => setCurrentPage(currentPage - 1)}
+              func={() => {
+                setCurrentPage(currentPage - 1);
+                setActiveCard(null);
+              }}
               style="px-4 py-2 rounded-full bg-cyan-400 text-white disabled:opacity-50"
               disabled={currentPage === 1}
             ></Button>
@@ -102,7 +107,10 @@ export default function FeaturesList() {
             </span>
             <Button
               text=">"
-              func={() => setCurrentPage(currentPage + 1)}
+              func={() => {
+                setCurrentPage(currentPage + 1);
+                setActiveCard(null);
+              }}
               style="px-4 py-2 rounded-full bg-cyan-400 text-white disabled:opacity-50"
               disabled={currentPage === totalPages}
             />

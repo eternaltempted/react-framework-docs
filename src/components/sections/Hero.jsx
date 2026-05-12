@@ -7,10 +7,10 @@ export default function Hero() {
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-20">
-      <h1 className="font-bold text-4xl dark:text-white">
+      <h1 className="font-bold text-4xl text-center dark:text-white">
         Learn <span className="text-cyan-400">React</span> easy!
       </h1>
-      <p className="w-120 text-center max-w-96 text-xl text-gray-800 dark:text-gray-200">
+      <p className=" text-center max-w-96 md:max-w-120 text-lg sm:text-xl text-gray-800 dark:text-gray-200">
         Explore different hooks, components, and modern React patterns through
         simple examples and interactive practice.
       </p>
