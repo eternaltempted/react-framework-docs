@@ -10,7 +10,7 @@ export default function FeaturesList() {
   const [search, setSearch] = useState("");
   // const [itemsPerPage, setItemsPerPage] = useState(15);
 
-  const itemsPerPage = 15;
+  const itemsPerPage = 16;
   const filteredConcepts = features.filter((feature) => {
     const matchesCategory =
       selectedCategory === "All" || feature.category === selectedCategory;
