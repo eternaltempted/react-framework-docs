@@ -1,9 +1,14 @@
 import { IconX } from "@tabler/icons-react";
 
-export default function Toast({ message, onClick, Icon, className }) {
+export default function Toast({ message, onClick, Icon, className, onRemove }) {
   return (
     <div
-      className={`flex items-center gap-4 w-full max-w-xs rounded-2xl px-4 py-4 shadow-xl bg-white backdrop-blur-md dark:bg-zinc-800 border dark:border-gray-700/70  border-gray-200`}
+      className={`flex animate-fadeIn items-center gap-4 w-full max-w-xs rounded-2xl px-4 py-4 shadow-xl bg-white backdrop-blur-md dark:bg-zinc-800 border dark:border-gray-700/70  border-gray-200`}
+      onAnimationEnd={(e) => {
+        if (e.animationName === "fadeOut") {
+          onRemove?.();
+        }
+      }}
     >
       <div className="flex flex-row justify-between items-center gap-3">
         <div

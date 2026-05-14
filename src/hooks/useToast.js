@@ -6,9 +6,18 @@ export function useToast() {
   const timeoutRef = useRef({});
 
   const removeToast = (id) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
+    setToasts((prev) => {
+      const updated = prev.map((t) =>
+        t.id === id ? { ...t, isRemoving: true } : t,
+      );
+      return updated;
+    });
+
     clearTimeout(timeoutRef.current[id]);
-    delete timeoutRef.current[id];
+
+    timeoutRef.current[id] = setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 300);
   };
 
   const showNotification = (type) => {

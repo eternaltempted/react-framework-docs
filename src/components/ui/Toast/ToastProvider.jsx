@@ -13,13 +13,18 @@ export function ToastProvider({ children }) {
 
       <div className="fixed bottom-5 right-5 flex flex-col gap-2 z-50">
         {toasts.map((toast) => (
-          <Toast
+          <div
             key={toast.id}
-            message={toast.message}
-            onClick={() => hideNotification(toast.id)}
-            Icon={toast.Icon}
-            className={toast.className}
-          />
+            className={toast.isRemoving ? "animate-fadeOut" : "animate-fadeIn"}
+          >
+            <Toast
+              key={toast.id}
+              message={toast.message}
+              onClick={() => hideNotification(toast.id)}
+              Icon={toast.Icon}
+              className={toast.className}
+            />
+          </div>
         ))}
       </div>
     </ToastContext.Provider>
