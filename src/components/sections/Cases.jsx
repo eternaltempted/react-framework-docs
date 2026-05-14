@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import Button from "../ui/Button";
-import Toast from "../ui/Toast";
 
-import { useToast } from "../../hooks/useToast";
+import Button from "../ui/Button";
+
+import { TOAST_TYPES } from "../ui/Toast/Toast.config";
+import { useGlobalToast } from "../../hooks/useGlobalToast";
 
 const btnStyle =
   "bg-cyan-200 px-2 py-1 rounded-lg text-black hover:bg-green-300 cursor-pointer";
@@ -47,7 +48,7 @@ function Timer({ showNotification }) {
           func={() => {
             setIsRunning(false);
             setCountdown(0);
-            showNotification("updated");
+            showNotification(TOAST_TYPES.UPDATED);
           }}
         ></Button>
       </div>
@@ -84,7 +85,7 @@ function Counter({ showNotification }) {
         <Button
           func={() => {
             setCount(0);
-            showNotification("updated");
+            showNotification(TOAST_TYPES.UPDATED); // UPDATED
           }}
           text={"Reset"}
           style={btnStyle}
@@ -119,8 +120,8 @@ function Form({ showNotification }) {
             setName(inputValue);
             setInputValue("");
             inputValue.trim() === ""
-              ? showNotification("error")
-              : showNotification("updated");
+              ? showNotification(TOAST_TYPES.DELETED)
+              : showNotification(TOAST_TYPES.OFFLINE);
           }}
           className="flex flex-row justify-center gap-2"
         >
@@ -139,7 +140,7 @@ function Form({ showNotification }) {
 }
 
 export default function Cases() {
-  const { currentToast, showNotification, hideNotification } = useToast();
+  const { showNotification } = useGlobalToast();
 
   return (
     <>
@@ -160,15 +161,6 @@ export default function Cases() {
           <Form showNotification={showNotification} />
           <Timer showNotification={showNotification}></Timer>
         </div>
-
-        {currentToast && (
-          <Toast
-            type={currentToast.type}
-            title={currentToast.title}
-            message={currentToast.message}
-            onClick={hideNotification}
-          ></Toast>
-        )}
       </section>
     </>
   );
