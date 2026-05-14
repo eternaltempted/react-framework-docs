@@ -1,9 +1,10 @@
-import { useToast } from "../../hooks/useToast";
-import Toast from "../ui/Toast";
 import Button from "../ui/Button";
 
+import { TOAST_TYPES } from "../ui/Toast/Toast.config";
+import { useGlobalToast } from "../../hooks/useGlobalToast";
+
 export default function Hero() {
-  const { currentToast, showNotification, hideNotification } = useToast();
+  const { showNotification } = useGlobalToast();
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-20">
@@ -22,7 +23,7 @@ export default function Hero() {
             "px-4 py-1 rounded-lg text-white bg-cyan-400 cursor-pointer hover:bg-cyan-500 transition-colors"
           }
           func={() => {
-            showNotification("error");
+            showNotification(TOAST_TYPES.ERROR);
           }} // arrow function
         ></Button>
         <Button
@@ -31,19 +32,10 @@ export default function Hero() {
             "px-4 py-1 rounded-lg text-white bg-cyan-400 cursor-pointer hover:bg-cyan-500 transition-colors"
           }
           func={() => {
-            showNotification("development");
+            showNotification(TOAST_TYPES.DEVELOPMENT);
           }} // arrow function
         ></Button>
       </div>
-
-      {currentToast && (
-        <Toast
-          type={currentToast.type}
-          title={currentToast.title}
-          message={currentToast.message}
-          onClick={hideNotification}
-        ></Toast>
-      )}
     </section>
   );
 }
