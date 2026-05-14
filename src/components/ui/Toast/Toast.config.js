@@ -1,6 +1,6 @@
 import {
   IconCode,
-//   IconEdit,
+  IconEdit,
   IconTrash,
   IconBookmark,
   IconCircleX,
@@ -68,12 +68,12 @@ export const toastConfiguration = {
     message: "The item has been removed.",
   },
 
-//   updated: {
-//     title: "Updated",
-//     Icon: IconEdit,
-//     className: "bg-purple-100/70 dark:bg-purple-900/40 text-purple-600",
-//     message: "Content has been updated.",
-//   },
+  updated: {
+    title: "Updated",
+    Icon: IconEdit,
+    className: "bg-purple-100/70 dark:bg-purple-900/40 text-purple-600",
+    message: "Content has been updated.",
+  },
 
   development: {
     title: "Feature unavailable",
@@ -92,7 +92,6 @@ export const TOAST_TYPES = {
   OFFLINE: "offline",
   SAVED: "saved",
   DELETED: "deleted",
-//   UPDATED: "updated",
+  UPDATED: "updated",
   DEVELOPMENT: "development",
-
 };
