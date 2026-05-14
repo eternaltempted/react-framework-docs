@@ -119,9 +119,7 @@ function Form({ showNotification }) {
 
             setName(inputValue);
             setInputValue("");
-            inputValue.trim() === ""
-              ? showNotification(TOAST_TYPES.DELETED)
-              : showNotification(TOAST_TYPES.OFFLINE);
+            showNotification(TOAST_TYPES.UPDATED);
           }}
           className="flex flex-row justify-center gap-2"
         >
