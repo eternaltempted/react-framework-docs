@@ -1,85 +1,45 @@
 import { useState, useRef } from "react";
+import { toastConfiguration } from "../components/ui/Toast/Toast.config";
 
 export function useToast() {
-  const [currentToast, setCurrentToast] = useState(null);
-  const timeoutRef = useRef(null);
+  const [toasts, setToasts] = useState([]);
+  const timeoutRef = useRef({});
 
-  const types = [
-    {
-      type: "success",
-      title: "Success",
-      message: "Operation completed successfully.",
-    },
-
-    {
-      type: "error",
-      title: "Error",
-      message: "Something went wrong. Please try again.",
-    },
-
-    {
-      type: "warning",
-      title: "Warning",
-      message: "Be careful while performing this action.",
-    },
-
-    {
-      type: "info",
-      title: "Information",
-      message: "Here is some useful information for you.",
-    },
-
-    {
-      type: "loading",
-      title: "Loading",
-      message: "Please wait while the request is processing.",
-    },
-
-    {
-      type: "offline",
-      title: "Offline",
-      message: "Internet connection was lost.",
-    },
-
-    {
-      type: "saved",
-      title: "Saved",
-      message: "Your changes have been saved successfully.",
-    },
-
-    {
-      type: "deleted",
-      title: "Deleted",
-      message: "The item has been removed successfully.",
-    },
-
-    {
-      type: "updated",
-      title: "Updated",
-      message: "Content updated successfully.",
-    },
-
-    {
-      type: "development",
-      title: "Feature unavailable",
-      message:
-        "This feature is currently under development. Please check back later.",
-    },
-  ];
+  const removeToast = (id) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+    clearTimeout(timeoutRef.current[id]);
+    delete timeoutRef.current[id];
+  };
 
   const showNotification = (type) => {
-    clearTimeout(timeoutRef.current);
+    const config = toastConfiguration[type];
+    if (!config) return;
 
-    setCurrentToast(types.find((t) => t.type === type));
+    setToasts((prev) => {
+      if (prev.length >= 3) return prev;
 
-    timeoutRef.current = setTimeout(() => {
-      setCurrentToast(null);
-    }, 3000);
+      const id = crypto.randomUUID();
+      const newToast = {
+        id,
+        type,
+        ...config,
+      };
+
+      timeoutRef.current[id] = setTimeout(() => {
+        removeToast(id);
+      }, 3000);
+
+      return [newToast, ...prev].slice(0, 3);
+    });
   };
 
-  const hideNotification = () => {
-    setCurrentToast(null);
+  const hideNotification = (id) => {
+    removeToast(id);
   };
 
-  return { currentToast, showNotification, hideNotification, types };
+  return {
+    toasts,
+    showNotification,
+    hideNotification,
+  };
 }
