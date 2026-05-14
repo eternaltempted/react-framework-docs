@@ -1,16 +1,30 @@
 import { useState } from "react";
+
 import { features, categories } from "../../data/features";
 import Button from "../ui/Button";
 import Search from "../features/Search";
+
+import { TOAST_TYPES } from "../ui/Toast/Toast.config";
+import { useGlobalToast } from "../../hooks/useGlobalToast";
 
 export default function FeaturesList() {
   const [activeCard, setActiveCard] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
-  // const [itemsPerPage, setItemsPerPage] = useState(15);
+  const { showNotification } = useGlobalToast();
 
-  const itemsPerPage = 16;
+  const [search, setSearch] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(
+    () => Number(localStorage.getItem("itemsPerPage")) || 16,
+  );
+
+  const setItems = (items) => {
+    setItemsPerPage(items);
+    localStorage.setItem("itemsPerPage", items);
+    showNotification(TOAST_TYPES.SAVED); // UPDATED
+    setCurrentPage(1);
+  };
+
   const filteredConcepts = features.filter((feature) => {
     const matchesCategory =
       selectedCategory === "All" || feature.category === selectedCategory;
@@ -39,13 +53,33 @@ export default function FeaturesList() {
       </div>
 
       <div className="px-8">
-        <div className="flex justify-center pb-4">
+        <div className="flex justify-center items-center gap-4 pb-4">
           <Search
             search={search}
             setSearch={setSearch}
             setCurrentPage={setCurrentPage}
             setActiveCard={setActiveCard}
           ></Search>
+
+          <div>
+            <label
+              className="dark:text-white text-gray-700"
+              htmlFor="itemsPerPage"
+            >
+              Select items per page:
+            </label>
+            <select
+              name="itemsPerPage"
+              id="itemsPerPage"
+              className="ml-2 px-2 py-1 rounded text-gray-700 dark:text-white border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+              onChange={(e) => setItems(Number(e.target.value))}
+            >
+              <option value="8">8</option>
+              <option value="16">16</option>
+              <option value="24">24</option>
+              <option value="32">32</option>
+            </select>
+          </div>
         </div>
 
         <div className="flex flex-row flex-wrap gap-4 justify-center pb-8">
